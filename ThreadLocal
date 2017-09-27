@@ -1,0 +1,16 @@
+private static ThreadLocal<List<Elements>> mycontext = new ThreadLocal<List<Elements>>();
+
+ /**
+     * 将ctx跟当前线程绑定
+     */
+    public static void setElementsList() {
+        List<Elements> list = new ArrayList<Elements>();
+        mycontext.set(list);
+    }
+
+    /**
+     * 返回与当前线程相关的context
+     */
+    public static List<Elements> getElementsList() {
+        return mycontext.get();
+    }
