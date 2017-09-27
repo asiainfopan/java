@@ -1,0 +1,4 @@
+private static volatile Map<String, String> pMap = new HashMap<String, String>();
+
+ pMap.put("verifyCode", verifyCode);
+ pMap.put("captchaId", captchaId);
