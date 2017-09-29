@@ -1,0 +1,32 @@
+java8 
+forEach
+
+List<SpiderTagKeyCate> keyCates = this.spiderTagKeyCateMapper.selectByKeyids(keyids);
+
+// 统计category词频
+Map<Integer, Integer> cateFreq = new HashMap<>();
+keyCates.forEach(cat -> {
+    if (cateFreq.containsKey(cat.getCategoryId())) {
+        cateFreq.put(cat.getCategoryId(),
+                cateFreq.get(cat.getCategoryId()) + freq.get(cat.getKeyId()));
+    } else {
+        cateFreq.put(cat.getCategoryId(), freq.get(cat.getKeyId()));
+    }
+});
+
+stream
+List<MobileTag> originMobileTags = this.mongoTemplate.find(query, MobileTag.class, tableName);
+
+// 取一年内的数据
+List<MobileTag> mobileTags = originMobileTags.stream().filter(tag ->
+        System.currentTimeMillis() / 1000 - tag.get_createTime() < 31536000).collect(Collectors.toList());
+-------------------------------------------------------------------------------------------------
+
+List<Integer> keyids = mobileTags.stream().map(MobileTag::getKey_id)
+        .collect(Collectors.toList());
+
+-------------------------------------------------------------------------------------------------
+List<SmsKeyWord> smsKeyWords = smsKeyWordMongoDao.query(null, SpiderTableName.SMSKEYWORD_DATA.getCode());
+smsKeyWords.addAll(getConfigInfo());
+
+Map<String, List<SmsKeyWord>> result = smsKeyWords.stream().collect(Collectors.groupingBy(SmsKeyWord::getKeyWordName));
